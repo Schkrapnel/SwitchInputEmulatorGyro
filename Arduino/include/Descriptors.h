@@ -103,6 +103,15 @@ const USB_Descriptor_HIDReport_Datatype_t PROGMEM JoystickReport[] = {
     HID_RI_REPORT_COUNT(8,1),                       // 1 report field
     HID_RI_INPUT(8,1),                              // Array input
 
+    // Gyro (6 bytes)
+    HID_RI_USAGE_PAGE(8,0x01),
+    HID_RI_LOGICAL_MAXIMUM(16,360),
+    HID_RI_PHYSICAL_MAXIMUM(16,360),
+    HID_RI_USAGE(8,0x08),
+    HID_RI_REPORT_SIZE(8,16),
+    HID_RI_REPORT_COUNT(8,3),
+    HID_RI_INPUT(8,2),
+
     // On the Pokken pad apparently we also receive a mirror image of the sent inputs,
     // but according to the Hori pad USB descriptors this isn't necessary.
     // The usage page is still vendor defined, so the usage 0x2621 is meaningless to us.

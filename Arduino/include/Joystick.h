@@ -101,6 +101,9 @@ typedef struct {
     uint8_t  RX;     // Right Stick X
     uint8_t  RY;     // Right Stick Y
     uint8_t  VendorSpec;
+    uint16_t IMU_Yaw;
+    uint16_t IMU_Pitch;
+    uint16_t IMU_Roll;
 } USB_JoystickReport_Input_t;
 
 // The output is structured as a mirror of the input.
@@ -112,6 +115,9 @@ typedef struct {
     uint8_t  LY;     // Left  Stick Y
     uint8_t  RX;     // Right Stick X
     uint8_t  RY;     // Right Stick Y
+    uint16_t IMU_Yaw;
+    uint16_t IMU_Pitch;
+    uint16_t IMU_Roll;
 } USB_JoystickReport_Output_t;
 
 // Function Prototypes

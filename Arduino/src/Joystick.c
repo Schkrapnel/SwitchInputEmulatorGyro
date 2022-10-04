@@ -29,7 +29,7 @@ typedef enum {
 } State_t;
 
 typedef struct {
-    uint8_t input[8];
+    uint8_t input[14];
     uint8_t crc8_ccitt;
     uint8_t received_bytes;
 } USB_Input_Packet_t;
@@ -55,7 +55,7 @@ ISR(USART1_RX_vect) {
         else state = OUT_OF_SYNC;
     } else if (state == SYNCED) {
 
-        if (usbInput.received_bytes < 8) {
+        if (usbInput.received_bytes < 14) {
             // Still filling up the buffer
             usbInput.input[usbInput.received_bytes++] = b;
             usbInput.crc8_ccitt = _crc8_ccitt_update(usbInput.crc8_ccitt, b);
@@ -70,7 +70,11 @@ ISR(USART1_RX_vect) {
                     // Mismatched CRC
                     send_byte(RESP_UPDATE_NACK);
                     PRINT_DEBUG("Packet specified CRC 0x%02x but calculated CRC was 0x%02x\n", b, usbInput.crc8_ccitt);
-                    PRINT_DEBUG("Packet data: %02x %02x %02x %02x %02x %02x %02x %02x %02x\n", usbInput.input[0], usbInput.input[1], usbInput.input[2], usbInput.input[3], usbInput.input[4], usbInput.input[5], usbInput.input[6], usbInput.input[7], b);
+                    PRINT_DEBUG("Packet data: %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x\n",
+                        usbInput.input[0], usbInput.input[1], usbInput.input[2], usbInput.input[3], 
+                        usbInput.input[4], usbInput.input[5], usbInput.input[6], usbInput.input[7],
+                        usbInput.input[8], usbInput.input[9], usbInput.input[10], usbInput.input[11],
+                        usbInput.input[12], usbInput.input[13], b);
                 }
                 
             } else {
@@ -82,6 +86,9 @@ ISR(USART1_RX_vect) {
                 buffer.RX = usbInput.input[5];
                 buffer.RY = usbInput.input[6];
                 buffer.VendorSpec = usbInput.input[7];
+                buffer.IMU_Yaw = (usbInput.input[8] << 8) | usbInput.input[9];
+                buffer.IMU_Pitch = (usbInput.input[10] << 8) | usbInput.input[11];
+                buffer.IMU_Roll = (usbInput.input[12] << 8) | usbInput.input[13];
                 // send_byte(RESP_UPDATE_ACK);
             }
             usbInput.received_bytes = 0;
@@ -105,6 +112,9 @@ int main(void) {
     defaultBuf.RX = STICK_CENTER;
     defaultBuf.RY = STICK_CENTER;
     defaultBuf.HAT = HAT_CENTER;
+    defaultBuf.IMU_Yaw = 0;
+    defaultBuf.IMU_Pitch = 0;
+    defaultBuf.IMU_Roll = 0;
     memcpy(&buffer, &defaultBuf, sizeof(USB_JoystickReport_Input_t));
 
     memset(&usbInput, 0, sizeof(USB_Input_Packet_t));
