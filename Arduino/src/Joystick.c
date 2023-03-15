@@ -86,6 +86,7 @@ ISR(USART1_RX_vect) {
                 buffer.RX = usbInput.input[5];
                 buffer.RY = usbInput.input[6];
                 buffer.VendorSpec = usbInput.input[7];
+                memset((void *)buffer.empty_padding, 0, sizeof(buffer.empty_padding));
                 buffer.IMU_Yaw = (usbInput.input[8] << 8) | usbInput.input[9];
                 buffer.IMU_Pitch = (usbInput.input[10] << 8) | usbInput.input[11];
                 buffer.IMU_Roll = (usbInput.input[12] << 8) | usbInput.input[13];

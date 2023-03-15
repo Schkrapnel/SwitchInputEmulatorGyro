@@ -101,6 +101,7 @@ typedef struct {
     uint8_t  RX;     // Right Stick X
     uint8_t  RY;     // Right Stick Y
     uint8_t  VendorSpec;
+    uint8_t  empty_padding[7];
     uint16_t IMU_Yaw;
     uint16_t IMU_Pitch;
     uint16_t IMU_Roll;

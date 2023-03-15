@@ -104,17 +104,20 @@ const USB_Descriptor_HIDReport_Datatype_t PROGMEM JoystickReport[] = {
         HID_RI_INPUT(8,1),                              // Array input
         
         // Gyro (6 bytes)
-        HID_RI_USAGE_PAGE(8,0x20),
-        HID_RI_LOGICAL_MAXIMUM(16,180),
-        HID_RI_PHYSICAL_MAXIMUM(16,180),
-        HID_RI_LOGICAL_MINIMUM(16,-180),
-        HID_RI_PHYSICAL_MINIMUM(16,-180),
-        HID_RI_REPORT_SIZE(8,16),
+        HID_RI_USAGE_PAGE(8,1),
+        HID_RI_LOGICAL_MAXIMUM(16,0x7FFF),
+        HID_RI_PHYSICAL_MAXIMUM(16,0x7FFF),
+        HID_RI_LOGICAL_MINIMUM(16,-0x7FFF),
+        HID_RI_PHYSICAL_MINIMUM(16,-0x7FFF),
+        HID_RI_USAGE(8, 51),
+        HID_RI_USAGE(8, 52),
+        HID_RI_USAGE(8, 53),
+        HID_RI_REPORT_SIZE(8,16),                       // 2 bytes per report field
         HID_RI_REPORT_COUNT(8,3),
-        HID_RI_UNIT(8,20),
-        HID_RI_USAGE(8,0x40),
-        HID_RI_USAGE(8,0x41),
-        HID_RI_USAGE(8,0x42),
+        HID_RI_UNIT(8,0),
+        // HID_RI_USAGE(8,0x40),
+        // HID_RI_USAGE(8,0x41),
+        // HID_RI_USAGE(8,0x42),
         HID_RI_INPUT(8,2),
 
         
